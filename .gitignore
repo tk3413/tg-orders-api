@@ -27,7 +27,7 @@ HELP.md
 
 ### VS Code ###
 .vscode/
-.DS_Store
 .mvn/
+logs/
 mvnw
 mvnw.cmd
