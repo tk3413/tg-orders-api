@@ -4,6 +4,7 @@
 
 
 ### Routes:
+
 #### /orderInfo 
 * Required query params: objectId
 * Optional query params: timestamp (if not provided, will fetch most recent order if available)
@@ -12,8 +13,7 @@
 * /order?objectId=2&timestamp=1484731400
 
 ###### Response examples: (format: json)
-{"customerName":"Jack","customerAddress":"Trade St.","status":"UNPAID","timestamp":1484730554}
-
+* {"customerName":"Jack","customerAddress":"Trade St.","status":"UNPAID","timestamp":1484730554}
 
 #### /health
 * Required query params: none
@@ -25,12 +25,13 @@
 ###### Response examples:
 (Response code: 200)
 
-###### Response codes:
+##### Response codes:
 | Response Code | Response Status |
 |---------------|-----------------|
 | 200           | Success         |
 | 404           | Not Found       |
 | 500           | Bad Request     |
+
 
 ### Developer's Corner:
 ```bash
