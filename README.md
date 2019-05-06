@@ -14,15 +14,6 @@
 ###### Response examples: (format: json)
 {"customerName":"Jack","customerAddress":"Trade St.","status":"UNPAID","timestamp":1484730554}
 
-###### Response codes:
-| Response Code | Response Status |
-|---------------|-----------------|
-| 200           | Success         |
-| 404           | Not Found       |
-| 500           | Bad Request     |
-
-###### Response format: 
-
 
 #### /health
 * Required query params: none
@@ -34,7 +25,12 @@
 ###### Response examples:
 (Response code: 200)
 
-
+###### Response codes:
+| Response Code | Response Status |
+|---------------|-----------------|
+| 200           | Success         |
+| 404           | Not Found       |
+| 500           | Bad Request     |
 
 ### Developer's Corner:
 ```bash
