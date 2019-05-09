@@ -3,7 +3,7 @@
 ### Diagram:
 
 
-### Routes:
+### GET Routes:
 
 #### /orderInfo 
 * Required query params: objectId
@@ -25,12 +25,22 @@
 ###### Response examples:
 (Response code: 200)
 
+### POST Routes:
+
+#### /orderInfo
+* Required request body params: none
+* Optional request body params: objectId, timestamp, customerName, customerAddress, shipDate, shippingProvider, status in (UNPAID, PAID, SHIPPED)  
+
+###### Response examples:
+(Response code: 201 or 400)
+
 ##### Response codes:
 | Response Code | Response Status |
 |---------------|-----------------|
 | 200           | Success         |
+| 201           | Created         |
 | 404           | Not Found       |
-| 500           | Bad Request     |
+| 400           | Bad Request     |
 
 
 ### Developer's Corner:
