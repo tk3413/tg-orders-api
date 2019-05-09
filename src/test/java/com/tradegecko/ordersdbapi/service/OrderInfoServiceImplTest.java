@@ -25,10 +25,18 @@ public class OrderInfoServiceImplTest {
     OrderInfoServiceImpl orderInfoService;
 
     @Test
-    public void testOrderInfoService() {
-        List<Order> orderList = new ArrayList<>();
+    public void testOrderInfoServiceGet() {
 
-        when(orderDao.getOrders(BigInteger.valueOf(1), BigInteger.valueOf(12345))).thenReturn(orderList);
-        assert orderInfoService.getOrderInformation(BigInteger.valueOf(1), BigInteger.valueOf(12345)).equals(orderList);
+        List<Order> orderList = new ArrayList<>();
+        when(orderDao.getAllOlderOrders(BigInteger.valueOf(1), BigInteger.valueOf(12345))).thenReturn(orderList);
+        assert orderInfoService.getAllOlderOrders(BigInteger.valueOf(1), BigInteger.valueOf(12345)).equals(orderList);
+    }
+
+    @Test
+    public void testOrderInfoServiceSave() {
+
+        Order order = new Order();
+        when(orderDao.save(order)).thenReturn(order);
+        assert orderInfoService.save(order).equals(order);
     }
 }

@@ -6,6 +6,7 @@ import java.math.BigInteger;
 
 @Data
 public class OrderInfoResponse {
+
     private String customerName;
 
     private String customerAddress;
@@ -17,6 +18,4 @@ public class OrderInfoResponse {
     private String shippingProvider;
 
     private BigInteger timestamp;
-
-    private Object OrderInfoResponse;
 }

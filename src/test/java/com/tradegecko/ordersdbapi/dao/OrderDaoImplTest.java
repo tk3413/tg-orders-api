@@ -2,6 +2,7 @@ package com.tradegecko.ordersdbapi.dao;
 
 import com.tradegecko.ordersdbapi.dao.impl.OrderDaoImpl;
 import com.tradegecko.ordersdbapi.model.Order;
+import com.tradegecko.ordersdbapi.model.OrderRequest;
 import com.tradegecko.ordersdbapi.repository.OrderRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,11 +25,20 @@ public class OrderDaoImplTest {
     OrderDaoImpl orderDaoimpl;
 
     @Test
-    public void testOrderDao() {
+    public void testOrderDaoGet() {
         List<Order> orderList = new ArrayList<>();
 
         when(orderRepository.getOrdersByObjectIdAndTimestampIsLessThanEqual(BigInteger.valueOf(1), BigInteger.valueOf(123456)))
                 .thenReturn(orderList);
-        assert orderDaoimpl.getOrders(BigInteger.valueOf(1), BigInteger.valueOf(123456)).equals(orderList);
+        assert orderDaoimpl.getAllOlderOrders(BigInteger.valueOf(1), BigInteger.valueOf(123456)).equals(orderList);
+    }
+
+    @Test
+    public void testOrderDaoSave() {
+        Order order = new Order();
+
+        when(orderRepository.save(order)).thenReturn(order);
+
+        assert orderDaoimpl.save(order).equals(order);
     }
 }
