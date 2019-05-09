@@ -1,44 +1,39 @@
 package com.tradegecko.ordersdbapi.model;
 
 import lombok.Data;
+import org.springframework.lang.Nullable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
 import java.math.BigInteger;
 
 @Data
-@Entity
-@Table(name = "orders")
-public class Order {
+public class OrderRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", updatable = false, nullable = false)
-    private BigInteger id;
-
+    @Nullable
     @Column(name = "obj_id")
     private BigInteger objectId;
 
+    @Nullable
     @Column(name = "cust_nm")
     private String customerName;
 
+    @Nullable
     @Column(name = "cust_adr")
     private String customerAddress;
 
+    @Nullable
     @Column(name = "status")
     private String status;
 
+    @Nullable
     @Column(name = "ship_dt")
     private String shipDate;
 
+    @Nullable
     @Column(name = "ship_prvdr")
     private String shippingProvider;
 
+    @Nullable
     @Column(name = "ts")
     private BigInteger timestamp;
-
-    public enum OrderStatus {
-        UNPAID,
-        PAID,
-        SHIPPED
-    }
 }
