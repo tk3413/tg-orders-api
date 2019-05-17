@@ -32,7 +32,7 @@
 * Optional request body params: objectId, timestamp, customerName, customerAddress, shipDate, shippingProvider, status in (UNPAID, PAID, SHIPPED)  
 
 ###### Response examples:
-(Response code: 201 or 400)
+(Response code: 201, 400, or 409 if duplicate)
 
 ##### Response codes:
 | Response Code | Response Status |
@@ -41,6 +41,8 @@
 | 201           | Created         |
 | 404           | Not Found       |
 | 400           | Bad Request     |
+| 409           | Conflict        |
+
 
 
 ### Developer's Corner:
