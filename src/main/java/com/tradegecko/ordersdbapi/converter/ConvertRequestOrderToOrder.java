@@ -11,6 +11,7 @@ public class ConvertRequestOrderToOrder implements Converter<Pair<Order, OrderRe
 
     @Override
     public Order convert(Pair<Order, OrderRequest> orderOrderRequestPair) {
+
         Order existingOrder = orderOrderRequestPair.getFirst();
         OrderRequest orderRequest = orderOrderRequestPair.getSecond();
 
@@ -19,7 +20,7 @@ public class ConvertRequestOrderToOrder implements Converter<Pair<Order, OrderRe
                 orderRequest.getCustomerName() :
                 existingOrder.getCustomerName());
         newOrder.setCustomerAddress(orderRequest.getCustomerAddress() != null ?
-                orderRequest.getCustomerName() :
+                orderRequest.getCustomerAddress() :
                 existingOrder.getCustomerAddress());
         newOrder.setObjectId(orderRequest.getObjectId() != null ?
                 orderRequest.getObjectId() :

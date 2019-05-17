@@ -7,7 +7,7 @@ import com.tradegecko.ordersdbapi.converter.ConvertRequestOrderToOrder;
 import com.tradegecko.ordersdbapi.model.Order;
 import com.tradegecko.ordersdbapi.model.OrderInfoResponse;
 import com.tradegecko.ordersdbapi.model.OrderRequest;
-import com.tradegecko.ordersdbapi.service.impl.OrderInfoServiceImpl;
+import com.tradegecko.ordersdbapi.service.OrderInfoService;
 import com.tradegecko.ordersdbapi.utils.Utils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class OrderController {
 
     @Autowired
-    private OrderInfoServiceImpl orderInfoService;
+    private OrderInfoService orderInfoService;
 
     @Autowired
     private ConvertOrderInfoToResponse convertOrderInfoToResponse;
@@ -75,16 +75,20 @@ public class OrderController {
     public @ResponseBody ResponseEntity<String> newOrder(@RequestBody OrderRequest requestOrder) {
 
         BigInteger requestedTimestamp = utils.validateTimestamp(Optional.ofNullable(requestOrder.getTimestamp()));
+        log.info("Received a post request: " + requestOrder.toString());
 
         Optional<Order> existingOrder = Optional.empty();
 
         if(requestOrder.getObjectId() != null) {
+
             List<Order> orderInfoList = orderInfoService.getAllOlderOrders(requestOrder.getObjectId(), requestedTimestamp);
             existingOrder = findMostRecentOrder(orderInfoList, requestedTimestamp);
         }
 
         Order newOrder = new Order();
         if(existingOrder.isEmpty()) {
+
+            log.info("This is a brand new request");
                 newOrder.setCustomerName(requestOrder.getCustomerName());
                 newOrder.setCustomerAddress(requestOrder.getCustomerAddress());
                 newOrder.setObjectId(requestOrder.getObjectId());
@@ -93,16 +97,26 @@ public class OrderController {
                 newOrder.setStatus(requestOrder.getStatus());
                 newOrder.setId(requestOrder.getObjectId().add(requestedTimestamp));
         } else {
+
+            log.info("This order id exists in the table already");
             Order previousOrder = existingOrder.get();
             newOrder = convertRequestOrderToOrder.convert(Pair.of(previousOrder, requestOrder));
+
+            if(previousOrder.equals(newOrder)) {
+
+                log.info("This is the same as the order already in the table");
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            }
         }
 
         Objects.requireNonNull(newOrder).setTimestamp(requestedTimestamp);
         try {
+
+            log.info("Persisting new order to table");
             Order response = orderInfoService.save(newOrder);
             return new ResponseEntity<>(new Gson().toJson(response), HttpStatus.CREATED);
-
         } catch (Exception e){
+
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -117,18 +131,21 @@ public class OrderController {
     }
 
     private Optional<OrderInfoResponse> findLatestOrderAndFormatAsResponse(List<Order> orderList, BigInteger requestedTimestamp) {
+
         Optional<Order> existingOrder = findMostRecentOrder(orderList, requestedTimestamp);
 
         return existingOrder.isEmpty() ? Optional.empty() : Optional.ofNullable(convertOrderInfoToResponse.convert(existingOrder.get()));
     }
 
     private Optional<Order> findMostRecentOrder(List<Order> orderList, BigInteger requestedTimestamp) {
+
         Optional<Order> existingOrder = Optional.empty();
 
         orderList.sort(Comparator.comparing(Order::getTimestamp));
 
         for (Order orderInList : orderList) {
             if (orderInList.getTimestamp().compareTo(requestedTimestamp) < 1) {
+
                 existingOrder = of(orderInList);
             }
         }

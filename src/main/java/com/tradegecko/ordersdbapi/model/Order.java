@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigInteger;
+import java.util.Objects;
 
 @Data
 @Entity
@@ -40,5 +41,24 @@ public class Order {
         UNPAID,
         PAID,
         SHIPPED
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+
+        if (!(o instanceof Order)) {
+            return false;
+        }
+
+        Order order = (Order) o;
+
+        return Objects.equals(order.getCustomerName(), customerName) &&
+                Objects.equals(order.getCustomerAddress(), customerAddress) &&
+                Objects.equals(order.getObjectId(), objectId) &&
+                Objects.equals(order.shipDate, shipDate) &&
+                Objects.equals(order.shippingProvider, shippingProvider);
     }
 }
