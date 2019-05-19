@@ -47,7 +47,7 @@
 
 ### Developer's Corner:
 ```bash
-git clone https://github.com/tk3413/tradegecko.git
+git clone https://github.com/tk3413/tg-orders-api.git
 cd tradegecko
 Use your favorite editor to update DB password in: src/main/resources/application.properties
 mvn clean install
