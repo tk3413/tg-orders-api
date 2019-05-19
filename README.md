@@ -1,7 +1,7 @@
 # Order DB API
 
 ### Diagram:
-
+![archiecture-diagram](documentation/diagram.png)
 
 ### GET Routes:
 
